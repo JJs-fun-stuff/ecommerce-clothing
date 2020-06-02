@@ -1,0 +1,29 @@
+.header {
+    height: 70px;
+    width: 100%;
+    display: flex;
+    // so .logo-container and option stay as far as possible
+    justify-content: space-between;
+    margin-bottom: 25px;
+
+    .logo-container {
+        height: 100%;
+        width: 70px;
+        padding: 25px;
+    }
+
+    .options {
+        width: 50%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        //   most right side of right box
+        justify-content: flex-end;
+
+
+        .option {
+            //   have padding so it is not too grouped together
+            padding: 10px 15px;
+        }
+    }
+}
