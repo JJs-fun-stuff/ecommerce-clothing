@@ -6,7 +6,7 @@ import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 
-import { auth } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 class App extends React.Component {
   constructor(){
@@ -24,9 +24,26 @@ componentDidMount(){
   // open messaging system betwen our application and our firebase
   // whenever 
   // this connection is always open  websocket connection
-  this.unsubscribeFromAuth= auth.onAuthStateChanged(user  => {
-    this.setState({currentUser : user})
-    console.log(user)
+  this.unsubscribeFromAuth= auth.onAuthStateChanged(async userAuth  => {
+    // if userAuth  = null it means that the user sign it out
+    if(userAuth){
+      const userRef = await createUserProfileDocument(userAuth);
+      // check if the snapshot is changed
+      userRef.onSnapshot(snapShot => {
+        // console.log(snapShot.data());
+        this.setState({
+          currentUser: {
+            id: snapShot.id,
+            ...snapShot.data()
+          }
+        });
+        console.log(this.state)
+      });
+      
+    } else {
+
+      this.setState({currentUser: userAuth});
+    }
   })
 }
 

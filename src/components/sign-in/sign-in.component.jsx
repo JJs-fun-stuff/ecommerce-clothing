@@ -19,6 +19,8 @@ class SignIn extends React.Component {
     // name of that specific input tag (email/password)
     const { value, name } = event.target;
     // array destructuring
+    //  if name is password it will have according password value
+    // if name is email it will have according email value
     this.setState({ [name]: value });
   };
   handleSubmit = (event) => {
