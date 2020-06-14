@@ -2,11 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 // help us to connect comps with  things related to redux
-import { connect } from "react-redux";  
+import { connect } from "react-redux";
 import { auth } from "../../firebase/firebase.utils";
 import "./header.styles.scss";
-
-const Header = ({ currentUser }) => (
+import CartIcon from "../cart-icon/cart-icon.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
+const Header = ({ currentUser, hidden }) => (
   <div className="header">
     <Link className="logo-container" to="/">
       <Logo className="logo" />
@@ -27,13 +28,16 @@ const Header = ({ currentUser }) => (
           SIGN IN
         </Link>
       )}
+      <CartIcon />
     </div>
+    {hidden ? null : <CartDropdown />}
   </div>
 );
 
-// state  is top level root reducer
-const mapStateToProps = state => ({
-  currentUser : state.user.currentUser
-})
+// we gonna extract currentUser and hidden value of this header component to root reducer
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden
+});
 // pass 2 function reducer
 export default connect(mapStateToProps)(Header);
